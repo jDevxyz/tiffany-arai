@@ -1,12 +1,18 @@
 import {IEvent} from "../controllers/EventLoader";
 import {AraiClient} from "../controllers/AraiClient";
-import {Message, MessageEmbed} from "discord.js";
+import { IMessage } from "src/controllers/extended/Message";
 
 export default class MessageEvent implements IEvent {
     name: string = "message";
-    run = (message: Message): Message | void => {
+    run = (message: IMessage): IMessage | void => {
         const client = this.client;
         if (message.author.bot || !message.guild) { return undefined; }
+
+        try {
+            client.cbusHandle().handle(message);
+        } catch (e) {
+            console.error(e);
+        }
 
         // Will handle commands
 

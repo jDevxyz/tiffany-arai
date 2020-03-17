@@ -1,11 +1,14 @@
 import {IEvent} from "../controllers/EventLoader";
 import {AraiClient} from "../controllers/AraiClient";
-import {Message} from "discord.js";
+import { ModuleLoader } from "../controllers/ModuleLoader";
+import { resolve } from "path";
 
 export default class ReadyEvent implements IEvent {
     name: string = "ready";
-    run = (message: Message): Message | void => {
+    run = (): void => {
+        this.client.console.info("Virtual Cat System Enabled!")
         // Needs more things
+        new ModuleLoader(this.client, resolve(__dirname, "..", "modules"));
     };
     constructor(public client: AraiClient) {}
 }

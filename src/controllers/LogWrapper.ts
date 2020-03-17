@@ -1,6 +1,7 @@
 import winston, {Logger, transports, format, createLogger} from "winston"
 import {EventEmitter} from "events"
 import chalk from "chalk";
+import {Store} from "../store"
 
 export class LogWrapper extends EventEmitter {
     logger: Logger;
@@ -21,16 +22,16 @@ export class LogWrapper extends EventEmitter {
             format: format.combine(
                 format.prettyPrint(),
                 format.timestamp({
-                    format: 'YYYY-MM-DD HH:mm:ss'
+                    format: "YYYY-MM-DD HH:mm:ss"
                 }),
                 format.errors({ stack: true }),
                 format.splat(),
                 format.json()
             ),
-            defaultMeta: { service: 'flux-bot' },
+            defaultMeta: { service: Store.fullname },
             transports: [
-                new transports.File({ filename: 'error.log', level: 'error' }),
-                new transports.File({ filename: 'logging.log' })
+                new transports.File({ filename: "error.log", level: "error" }),
+                new transports.File({ filename: "logging.log" })
             ]
         });
 
