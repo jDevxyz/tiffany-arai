@@ -20,6 +20,7 @@
   ],
   "license": "AGPL-3.0",
   "dependencies": {
+    "@tensorflow/tfjs": "^1.7.0",
     "@tensorflow/tfjs-node": "^1.7.0",
     "@tensorflow/tfjs-node-gpu": "^1.7.0",
     "app-root-path": "^2.2.1",
@@ -35,7 +36,8 @@
     "discord.js": "discordjs/discord.js",
     "require-all": "^3.0.0",
     "winston": "^3.2.1",
-    "kurasuta": "^2.0.0"
+    "kurasuta": "^2.0.0",
+    "string-template": "^1.0.0"
   },
   "optionalDependencies": {
     "@discordjs/opus": "^0.1.0",
