@@ -11,9 +11,8 @@ export default class MessageEvent implements IEvent {
         try {
             client.cbusHandle().handle(message);
         } catch (e) {
-            console.error(e);
+            client.console.error("MESSAGE_EVENT_ERROR: ", e);
         }
-
         // Will handle commands
 
         if (message.mentions.users.has(message.client.user!.id)) {

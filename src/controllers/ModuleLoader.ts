@@ -6,7 +6,7 @@ import { IMessage } from "./extended/Message";
 export class ModuleLoader {
     constructor(private client: AraiClient, private path: string) {
         readdir(path, (err, submodules: string[]) => {
-            if (err) client.console.error(err);
+            if (err) client.console.error("MODULE_LOADER_ERROR: ", err);
             client.console.info(`Found ${submodules.length} of submodules`);
             submodules.forEach(submodule => {
                 try {
@@ -27,15 +27,15 @@ export class ModuleLoader {
                                 this.client.aliases.set(alias, prop.help.name);
                             });
                             config.cmds.push(prop.help.name);
-                        })
+                        });
                         if (disabledCommands.length !== 0) client.console.info(`There are ${disabledCommands.length} command(s) disabled.`);
                         this.client.submodules.set(submodule, this.client.commands.filter((cmd: ICommandComponent | undefined) => cmd!.submodule === submodule));
                     })
                 } catch(e) {
                     if (new RegExp("Cannot find module", "gi").exec(e.message)!.length !== 0) {
-                        client.console.warn("WARN: ", new Error(`No submodule config found on: ${submodule}`));
+                        client.console.warn("MODULE_LOADER_WARN: ", new Error(`No submodule config found on: ${submodule}`));
                     } else {
-                        client.console.error("ERROR: ", e);
+                        client.console.error("MODULE_LOADER_ERROR: ", e);
                     }
                 }
             })
@@ -45,7 +45,7 @@ export class ModuleLoader {
 
 export interface IModuleConfig {
     name: string,
-    hide: boolean, 
+    hide: boolean,
     devOnly: boolean,
     path: string | null
     cmds: []

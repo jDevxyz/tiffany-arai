@@ -1,5 +1,5 @@
 import { CommandComponent } from "../../controllers/ModuleLoader";
-import { AraiClient } from "../..//controllers/AraiClient";
+import { AraiClient } from "../../controllers/AraiClient";
 import { MessageEmbed as Embed } from "discord.js";
 import { IMessage } from "../../controllers/extended/Message";
 

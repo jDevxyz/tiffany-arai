@@ -1,37 +1,51 @@
-import { r, Connection, RDatabase, TableCreateOptions, RValue, RDatum, TableChangeResult, RTable, RCursor, RSingleSelection, RSelection } from "rethinkdb-ts"
+import {
+    r,
+    Connection,
+    RDatabase,
+    TableCreateOptions,
+    RValue,
+    RDatum,
+    TableChangeResult,
+    RTable,
+    RCursor,
+    RSingleSelection,
+    RSelection, WriteResult
+} from "rethinkdb-ts"
 import {EventEmitter} from "events"
 import { AraiClient } from "./AraiClient";
+import {ValueChange} from "rethinkdb-ts/lib/types";
 
 export class RethinkController extends EventEmitter {
-    protected ready: boolean = false
-    public conn?: Connection
+    protected ready: boolean = false;
+    public conn?: Connection;
+    public defaultDatabase?: RDatabase;
     constructor(private client: AraiClient) {
         super();
-        this.build()
     }
 
     public async build(): Promise<Connection | void> {
         const options = {
             host: this.client.state.rethink.host,
             port: this.client.state.rethink.port
-        }
-        const conn = await r.connect(options)
-        const db = await this.getdb(this.client.state.nickname.toLowerCase())
+        };
+        const conn = await r.connect(options);
 
-        this.conn = conn
-        this.ready = true
+        this.conn = conn;
+        this.client.conn = conn;
+        this.ready = true;
         return conn
     }
 
-    public async getdb(dbname: string): Promise<RDatabase> {
-        const dbchecking = this.dbcheck(dbname)
+    public getdb(dbname: string): RDatabase {
+        this.dbcheck(dbname).then();
         return r.db(dbname)
     }
 
     public async insert(tablename: string, data: any) {
-        let result: any
+        if (!this.ready) throw this.client.console.warn("DATABASE WARN: ", new Error("Database is not ready yet"));
+        let result: any;
         try {
-            result = await r.table(tablename).insert(data).run(this.conn)
+            result = await this.defaultDatabase!.table(tablename).insert(data).run(this.conn)
         } catch(e) {
             this.client.console.error("DATABASE ERROR: ", e)
         }
@@ -39,44 +53,54 @@ export class RethinkController extends EventEmitter {
     }
 
     public async cursor(tablename: string): Promise<RCursor<any>>  {
-        const cursor = await r.table(tablename).getCursor(this.conn)
+        if (!this.ready) throw this.client.console.warn("DATABASE WARN: ", new Error("Database is not ready yet"));
+        const [cursor] = await Promise.all([this.defaultDatabase!.table(tablename).getCursor(this.conn)]);
         return cursor
     }
 
-    public async update(tablename: string, data: any): Promise<any> {
-        const update = await r.table(tablename).update(data).run(this.conn)
+    public async updateOne(tablename: string, key: string, data: any): Promise<WriteResult<any>> {
+        if (!this.ready) throw this.client.console.warn("DATABASE WARN: ", new Error("Database is not ready yet"));
+        const [update] = await Promise.all([this.defaultDatabase!.table(tablename).get(key).update(data).run(this.conn)]);
         return update
     }
 
     public async get(tablename: string, key: string): Promise<any> {
-        const value = await r.table(tablename).get(key).run(this.conn)
+        if (!this.ready) throw this.client.console.warn("DATABASE WARN: ", new Error("Database is not ready yet"));
+        const [value] = await Promise.all([this.defaultDatabase!.table(tablename).get(key).run(this.conn)]);
+        value.delete = function() {
+
+        };
         return value
     }
 
-    public async delete(tablename: string, row: string, lt: number): Promise<any> {
-        const deleted = await r.table(tablename).filter(r.row(row).count().lt(lt)).delete().run(this.conn)
+    public async deleteOne(tablename: string, key: string): Promise<any> {
+        if (!this.ready) throw this.client.console.warn("DATABASE WARN: ", new Error("Database is not ready yet"));
+        const [deleted] = await Promise.all([this.defaultDatabase!.table(tablename).get(key).delete().run(this.conn)]);
         return deleted
     }
 
-    protected async tablecheck(tablename: string) {
-        await r.tableList().contains(tablename)
-        .do(function(tableExist: RDatum<boolean>) {
-            return r.branch(
-                tableExist,
-                { table_created: 0 },
-                r.tableCreate(tablename)
-            )
-        }).run(this.conn)
+    public async deleteAll(tablename: string): Promise<any> {
+        if (!this.ready) throw this.client.console.warn("DATABASE WARN: ", new Error("Database is not ready yet"));
+        const [deleted] = await Promise.all([this.defaultDatabase!.table(tablename).delete().run(this.conn)]);
+        return deleted
+    }
+
+    public async deleteFiltered(tablename: string, filter: any): Promise<any> {
+        if (!this.ready) throw this.client.console.warn("DATABASE WARN: ", new Error("Database is not ready yet"));
+        const [deleted] = await Promise.all([this.defaultDatabase!.table(tablename).filter(filter).delete().run(this.conn)]);
+        return deleted
+    }
+
+    protected async tablecheck(dbname: string, tablename: string) {
+        this.dbcheck(dbname);
+        const tablexist = await r.tableList().contains(tablename).run(this.conn);
+        if (tablexist) return;
+        await r.db(dbname).tableCreate(tablename).run(this.conn)
     }
 
     protected async dbcheck(dbname: string) {
-        await r.dbList().contains(dbname)
-        .do(function(dbExist: RDatum<boolean>) {
-            return r.branch(
-                dbExist,
-                { dbs_created: 0 },
-                r.dbCreate(dbname)
-            )
-        }).run(this.conn)
+        const dbexist = await r.dbList().contains(dbname).run(this.conn);
+        if (dbexist) return;
+        await r.dbCreate(dbname).run(this.conn)
     }
 }

@@ -25,7 +25,7 @@ export class CommandBus {
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000;
                 message.channel.send(`**${member.user.username}**, please wait **${timeLeft.toFixed(1)}** cooldown time.`).then((msg: IMessage | any) => {
-                    msg.delete(3400);
+                    msg.delete(3400).then();
                 });
                 return undefined;
             }
@@ -58,7 +58,7 @@ export class CommandBus {
         } finally {
             // eslint-disable-next-line no-unsafe-finally
             if (command.conf.devOnly && !message.author.isDev) return undefined;
-            this.client.console.info(`${message.author.tag} is using ${command.help.name} command on ${message.guild.name}`);
+            this.client.console.debug(`${message.author.tag} is using ${command.help.name} command on ${message.guild.name}`);
         }
     }
 

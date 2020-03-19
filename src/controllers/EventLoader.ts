@@ -11,6 +11,7 @@ export class EventLoader {
         }
 
         this.client.events.forEach((event: IEvent) => {
+            // @ts-ignore
             this.client.on(event.name, event.run);
         });
     }
