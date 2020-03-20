@@ -7,7 +7,7 @@ import {EventLoader, IEvent} from "./EventLoader";
 import {LogWrapper} from "./LogWrapper";
 import {ICommandComponent} from "./ModuleLoader";
 import Util from "./Util";
-import {CommandBus} from "./CommandBus";
+import {CommandBus} from "./CommandBus"; 
 
 import "./extended/User";
 import "./extended/GuildMember";

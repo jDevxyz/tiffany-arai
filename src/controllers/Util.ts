@@ -1,7 +1,7 @@
-import DiscordJS, { Guild } from "discord.js";
+import { MessageEmbed, Guild, UserResolvable, ImageURLOptions } from "discord.js";
 import { AraiClient } from "./AraiClient";
 import { IMessage } from "./extended/Message";
-import request from "node-superfetch";
+import request from "node-superfetch"; // bersihin?
 
 export default class Util {
     constructor(private client: AraiClient) {
@@ -32,18 +32,18 @@ export default class Util {
         return `https://bin.hzmi.xyz/${(body as any).key}`;
     }
 
-    public getAvatar(user: DiscordJS.UserResolvable | any): Promise<string> | string | any {
+    public getAvatar(user: UserResolvable | any): string {
         let isGif: any = this.client.users.resolve(user)!.displayAvatarURL().split(".");
         isGif = isGif[isGif.length - 1] === "gif";
-        const final: DiscordJS.ImageURLOptions = isGif ? { format: "gif" } : { format: "png" };
+        const final: ImageURLOptions = isGif ? { format: "gif" } : { format: "png" };
         return this.client.users.resolve(user)!.displayAvatarURL(final);
     }
 
-    public getGuildIcon(guild: Guild): Promise<string> | string | any {
+    public getGuildIcon(guild: Guild): string | any {
         if (guild.iconURL === null) return guild.iconURL();
         let isGif: any = guild.iconURL()!.split(".");
         isGif = isGif[isGif.length - 1] === "gif";
-        const final: DiscordJS.ImageURLOptions = isGif ? { format: "gif" } : { format: "png" };
+        const final: ImageURLOptions = isGif ? { format: "gif" } : { format: "png" };
         return guild.iconURL(final);
     }
 
@@ -111,7 +111,7 @@ export default class Util {
     public argsMissing(msg: IMessage, reason: string, cmd: any): Promise<any> {
         const usage = cmd.usage ? `**${this.client.state.prefix}**${cmd.usage.replace(new RegExp("{prefix}", "g"), `**${this.client.state.prefix}**`)}` : "No usage provided.";
         const example = cmd.example ? `**${this.client.state.prefix}**${cmd.example.replace(new RegExp("{prefix}", "g"), `**${this.client.state.prefix}**`)}` : "No example provided.";
-        const embed = new DiscordJS.MessageEmbed()
+        const embed = new MessageEmbed()
             .setAuthor(`It's not how you use ${cmd.name}`, `${this.client.state.staticServer}/images/596234507531845634.png`)
             .setColor("#FF0000")
             .setThumbnail(this.client.user!.displayAvatarURL())
