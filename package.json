@@ -34,7 +34,7 @@
     "dotenv": "^8.2.0",
     "gpu.js": "^2.8.4",
     "kurasuta": "^2.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "node-fetch": "^2.6.0",
     "node-superfetch": "0.1.10",
     "rethinkdb-ts": "^2.4.2",
