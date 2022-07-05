@@ -42,7 +42,7 @@
     "winston": "^3.2.1"
   },
   "optionalDependencies": {
-    "@discordjs/opus": "^0.1.0",
+    "@discordjs/opus": "^0.8.0",
     "bufferutil": "^4.0.1",
     "erlpack": "github:discordapp/erlpack",
     "utf-8-validate": "^5.0.2",
