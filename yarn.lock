@@ -2033,7 +2033,7 @@ diff@^4.0.1:
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
-discord.js@^12.0.1, discord.js@discordjs/discord.js:
+discord.js@^12.0.1:
   version "12.0.2"
   resolved "https://codeload.github.com/discordjs/discord.js/tar.gz/5b9cdc5cd243b1588c285e22b90d92535a30b993"
   dependencies:
@@ -2045,6 +2045,11 @@ discord.js@^12.0.1, discord.js@discordjs/discord.js:
     setimmediate "^1.0.5"
     tweetnacl "^1.0.3"
     ws "^7.2.1"
+
+"discord.js@github:discordjs/discord.js":
+  version "0.0.0"
+  uid "3407e1eea3c8d5629465553f342ac30ceae27a47"
+  resolved "https://codeload.github.com/discordjs/discord.js/tar.gz/3407e1eea3c8d5629465553f342ac30ceae27a47"
 
 dmd@^4.0.5:
   version "4.0.6"
@@ -2141,13 +2146,13 @@ env-variable@0.0.x:
   resolved "https://registry.yarnpkg.com/env-variable/-/env-variable-0.0.6.tgz#74ab20b3786c545b62b4a4813ab8cf22726c9808"
   integrity sha512-bHz59NlBbtS0NhftmR8+ExBEekE7br0e01jw+kk0NDro7TtZzBYZ5ScGPs3OmwnpyfHTHOtr1Y6uedCdrIldtg==
 
-erlpack@^0.1.3:
+"erlpack@github:discordapp/erlpack":
   version "0.1.3"
-  resolved "https://registry.yarnpkg.com/erlpack/-/erlpack-0.1.3.tgz#f6cd2a0d5b2f9d054b310c1dda98f60744b9f857"
-  integrity sha512-QeG9v8CVsY/a/IoQi8zjn23aYKcziOihAxwjUl3tI/KB4R1FjTtctDAAMovgtpC16S+WiOauers2oWwIOQtKBQ==
+  uid cbe76be04c2210fc9cb6ff95910f0937c1011d04
+  resolved "https://codeload.github.com/discordapp/erlpack/tar.gz/cbe76be04c2210fc9cb6ff95910f0937c1011d04"
   dependencies:
     bindings "^1.5.0"
-    nan "^2.14.0"
+    nan "^2.15.0"
 
 error-ex@^1.2.0:
   version "1.3.2"
@@ -3555,11 +3560,9 @@ json-stringify-safe@~5.0.1:
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
 json5@^2.1.0:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/json5/-/json5-2.1.2.tgz#43ef1f0af9835dd624751a6b7fa48874fb2d608e"
-  integrity sha512-MoUOQ4WdiN3yxhm7NEVJSJrieAo5hNSLQ5sj05OTRHPL9HOBy8u4Bu88jsC1jvqAdN+E1bJmsUcZH+1HQxliqQ==
-  dependencies:
-    minimist "^1.2.5"
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
+  integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
 jsprim@^1.2.2:
   version "1.4.1"
@@ -3998,6 +4001,11 @@ nan@^2.12.1, nan@^2.14.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
+
+nan@^2.15.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.17.0.tgz#c0150a2368a182f033e9aa5195ec76ea41a199cb"
+  integrity sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==
 
 nanomatch@^1.2.9:
   version "1.2.13"
